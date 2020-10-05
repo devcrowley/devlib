@@ -8,7 +8,7 @@
  * Usage:  `import * as devlib from "./devlib.js";`
  */
 
-/** A query and DOM manipulation library */
+/** [In Development] A query and DOM manipulation library. */
 class devQuery {
     constructor(__query, multiple) {
         this.__query = __query;
@@ -33,7 +33,7 @@ class devQuery {
     }
     /** Appends a node or DOM element to queried element */
     append(node) {
-        console.log("Well, node this!", node);
+        if(this[0]) this[0].append(node);
     }
 }
 
