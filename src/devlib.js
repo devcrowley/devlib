@@ -1,4 +1,4 @@
-/** Devlib 3.0.0a Modular Edition
+/** Devlib 3.0.0a Modular Edition 
  * A library with many useful functions
  * Uses ES6+ Syntax, so may not be compatible with older/obsolete browsers
  * 
@@ -38,7 +38,37 @@ class devQuery {
     }
     /** Appends a node or DOM element to queried element */
     append(node) {
-        if(this[0]) this[0].append(node);
+        if(typeof node === "object") {
+            if(this[0]) this[0].append(node);
+        } else {
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = node;
+            const newNode = tempDiv.firstElementChild;
+            tempDiv.remove();
+            this[0].append(newNode);
+            return this;
+        }
+    }
+    /** Sets the value of all queried results */
+    val(value) {
+        this.each(node=>node.value = value);
+        return this;
+    }
+    /** Returns all queried results as an array */
+    nodes() {
+        const arr = [];
+        for(let i = 0; i < this.length; i++) {
+            arr.push(this[i]);
+        }
+        return arr;
+    }
+    /** Runs a function on each element in the queried results */
+    each(fn) {
+        const nodes = this.nodes();
+        nodes.forEach(n=>{
+            fn(n);
+        });
+        return this;
     }
 }
 
@@ -46,8 +76,6 @@ class devQuery {
 if (!$) var $ = (_$_) => {
     return new devQuery(_$_).query();
 }
-
-
 
 /** Reads value pairs from an URL GET statement
  * For Example, parsing `http://myurl.html?value=yes&happy=youknowit`
