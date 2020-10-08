@@ -8,6 +8,11 @@
  * Usage:  `import * as devlib from "./devlib.js";`
  */
 
+/** Tools for manipulating and reading data from the current or remote URLs */
+const urlTools = {};
+/** Tools for manipulating the DOM and its nodes */
+const domTools = {}; 
+
 /** [In Development] A query and DOM manipulation library. */
 class devQuery {
     constructor(__query, multiple) {
@@ -38,21 +43,11 @@ class devQuery {
 }
 
 /** Make sure we don't already have a query object such as jQuery.  If not, set up devQuery */
-if (!$) const $ = (_$_) => {
+if (!$) var $ = (_$_) => {
     return new devQuery(_$_).query();
 }
 
-/** Tools for manipulating and reading data from the current or remote URLs */
-urlTools = {};
-/** Tools for manipulating the DOM and its nodes */
-domTools = {};
 
-/** Set exports for all functions by category */
-export {
-    urlTools,
-    domTools,
-    $
-};
 
 /** Reads value pairs from an URL GET statement
  * For Example, parsing `http://myurl.html?value=yes&happy=youknowit`
@@ -137,3 +132,11 @@ domTools.keepObjectInBox = function(elem, container, padding) {
         top: elemDims.y
     });
 }
+
+
+/** Set exports for all functions by category */
+export {
+    urlTools,
+    domTools,
+    $
+};
