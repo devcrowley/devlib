@@ -1,0 +1,88 @@
+.__data-tree-view {
+  font-family: Arial, sans-serif;
+}
+
+.__data-tree-view--expandable {
+  cursor: pointer;
+}
+
+.__data-tree-view--expandable:before {
+  content: "\25BC";
+  display: inline-block;
+  font-size: 0.8rem;
+  width: 1rem;
+  height: 1rem;
+  position: relative;
+  animation-name: point--down;
+  animation-duration: 0.25s;
+  animation-fill-mode: forwards;
+}
+
+.__data-tree-view--collapsed * {
+  display: none;
+}
+
+.__data-tree-view--collapsed:before {
+  animation-name: point--right;
+  animation-duration: 0.05s;
+}
+
+.__data-tree-view--non-expandable {
+  cursor: default;
+}
+
+.__data-tree-view--non-expandable:before {
+  content: "\25A0";
+  font-size: 0.5rem;
+  width: 1rem;
+  padding-right: 0.5rem;
+  position: relative;
+  top: -0.2rem;
+}
+
+.__data-tree-view--key:after {
+  content: " = ";
+}
+
+.__data-tree-view--value {
+  font-weight: bold;
+}
+
+.__data-tree-view ul {
+  list-style: none;
+  color: brown;
+}
+
+.__data-tree-view ul.level1 {
+  color: red;
+}
+
+.__data-tree-view ul.level2 {
+  color: blue;
+}
+
+.__data-tree-view ul.level3 {
+  color: green;
+  smargin-left: -2.4rem;
+}
+
+/* ANIMATIONS */
+@keyframes point--right {
+  from {
+    top: -0.1rem;
+    transform: rotate(0deg);
+  }
+  to {
+    top: -0.2rem;
+    transform: rotate(-90deg);
+  }
+}
+
+@keyframes point--down {
+  from {
+    transform: rotate(-90deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}

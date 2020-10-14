@@ -1,0 +1,84 @@
+.__data-tree-view {
+    font-family: Arial, sans-serif;
+    &--expandable {
+        cursor:pointer;
+        &:before {
+            content: "\25BC";
+            display:inline-block;
+            font-size:0.8rem;
+            width:1rem;
+            height:1rem;
+            position:relative;
+            animation-name: point--down;
+            animation-duration: 0.25s;
+            animation-fill-mode: forwards;
+        }
+    } 
+    &--collapsed {
+        * {
+            display:none;
+        }
+        &:before {
+            animation-name: point--right;
+            animation-duration: 0.05s;
+        }
+    }
+    &--non-expandable {
+        cursor:default;
+        &:before {
+            content: "\25A0";
+            font-size:0.5rem;
+            width:1rem;
+            padding-right:0.5rem;
+            position:relative;
+            top:-0.2rem;
+        }
+    }       
+    &--key {
+        &:after {
+            content: " = ";
+        }
+    }
+    &--value {
+        font-weight:bold;
+    }
+    ul {
+        list-style:none;
+        color:brown;
+    }
+    
+    ul.level1 {
+        color:red;
+    }
+    
+    ul.level2 {
+        color:blue;
+    }
+    
+    ul.level3 {
+        color:green;
+        smargin-left:-2.4rem;
+    }    
+}
+
+/* ANIMATIONS */
+
+@keyframes point--right {
+    from {
+        top:-0.1rem;
+        transform: rotate(0deg);
+    }
+    to {
+        top:-0.2rem;
+        transform: rotate(-90deg);
+    }
+}
+
+@keyframes point--down {
+    from {
+        transform: rotate(-90deg);
+    }    
+    to {
+        transform: rotate(0deg);
+    }
+}

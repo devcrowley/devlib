@@ -1,0 +1,20 @@
+{
+    "batchcomplete": "True",
+    "query": {
+        "pages": {
+            "736": {
+                "pageid": 736,
+                "ns": 0,
+                "title": "Albert Einstein",
+                "contentmodel": "wikitext",
+                "pagelanguage": "en",
+                "pagelanguagehtmlcode": "en",
+                "pagelanguagedir": "ltr",
+                "touched": "2020-10-14T07:34:41Z",
+                "lastrevid": 983441779,
+                "length": 174346
+            }
+        }
+    },
+    "Top Words" : ["callous", "descent", "pediatric", { "Animalia" : ["orangutan", "snake"] }, {"Test Group" : ["Marmot", "Alligator"]}]
+}
