@@ -9,12 +9,6 @@ const app = {};
 window.app = app;
 
 $.ready(()=>{
-    // window.dialog = $.domTools.dialogBox({
-    //     title: "Devtools Examples",
-    //     html: "<strong>A series of examples for DOM Queries, DOM Manipulation, UI, and other useful tools</strong><p>This portion is currently in development, so there isn't much here just yet.</p>",
-    //     width: "300px",
-    //     height: "auto"
-    // })
     $("#btn_showjsontree").on("click", e=>{
         jsonToHtml();
     });

@@ -114,9 +114,6 @@ class DevQuery {
 
 const fn = DevQuery.__proto__;
 
-
-
-
 /**
  * Posts data to a given URL
  *

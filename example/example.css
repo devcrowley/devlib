@@ -1,9 +1,14 @@
 .__data-tree-view {
   font-family: Arial, sans-serif;
+  line-height: 1.25rem;
 }
 
 .__data-tree-view--expandable {
   cursor: pointer;
+  display: block;
+  position: relative;
+  left: -0.5rem;
+  margin: 0.25rem;
 }
 
 .__data-tree-view--expandable:before {
@@ -24,7 +29,7 @@
 
 .__data-tree-view--collapsed:before {
   animation-name: point--right;
-  animation-duration: 0.05s;
+  animation-duration: 0.25s;
 }
 
 .__data-tree-view--non-expandable {
@@ -50,18 +55,17 @@
 
 .__data-tree-view ul {
   list-style: none;
-  color: brown;
 }
 
-.__data-tree-view ul.level1 {
+.__data-tree-view .level1 {
   color: red;
 }
 
-.__data-tree-view ul.level2 {
+.__data-tree-view .level2 {
   color: blue;
 }
 
-.__data-tree-view ul.level3 {
+.__data-tree-view .level3 {
   color: green;
   smargin-left: -2.4rem;
 }
@@ -69,11 +73,13 @@
 /* ANIMATIONS */
 @keyframes point--right {
   from {
-    top: -0.1rem;
+    top: 0rem;
+    left: 0rem;
     transform: rotate(0deg);
   }
   to {
-    top: -0.2rem;
+    top: -0.1rem;
+    left: -0.1rem;
     transform: rotate(-90deg);
   }
 }

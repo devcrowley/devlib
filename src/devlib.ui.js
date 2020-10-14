@@ -236,6 +236,9 @@ export function dataToHtml(data, options = {}) {
                 el.classList.add("__data-tree-view--expandable");
             } else {
                 el.classList.add("__data-tree-view--non-expandable");
+                el.addEventListener("click", e=>{
+                    e.stopPropagation();
+                });                
             }
         });
     }
