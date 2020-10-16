@@ -1,4 +1,5 @@
-/** Devlib 3.0.0a INCOMPLETE Modular Edition
+/** Devlib 0.0.2a Modular Edition
+ * This library is still in development!
  * 
  * A library with many useful functions
  * Uses ES6+ Syntax, so may not be compatible with older/obsolete browsers
@@ -20,9 +21,8 @@ import domTools from './devlib.domtools.js';
 
 /** [In Development] A query and DOM manipulation library. */
 class DevQuery {
-    constructor(__query, multiple) {
+    constructor(__query) {
         this.__query = __query;
-        this.__multiple = multiple || false;
     }
     /** Clears all values from the initial query */
     __clearValues__() {
@@ -32,17 +32,33 @@ class DevQuery {
         this.length = 0;
         return (this);
     }
+    /** Generates a new element from raw HTML, but doesn't append it to anything */
+    __addElement__(node) {
+        // Make sure a closing tag is provided or we'll get parsing errors
+        const closingTag = "</" + node.split(" ")[0].split(">")[0].replace("<","") + ">";
+        if(node.search(closingTag) === -1) node += closingTag;
+        const newNode = new DOMParser().parseFromString(node, "text/xml");
+        return newNode.firstChild;
+    }
     /** Gets all of the query results and applies them to the query object */
     query() {
         if(typeof this.__query !== "object") {
-            const result = Array.from(document.querySelectorAll(this.__query));
-            this.nodes = [];
-            for (let i = 0; i < result.length; i++) {
-                this[i] = result[i];
-                this.nodes.push(this[i]);
+            // Query includes tags so create an element instead of querying for one
+            if(this.__query.search(/[<>]/g) > -1) {
+                const newElement = this.__addElement__(this.__query);
+                const newDQ = new DevQuery(newElement);
+                newDQ[0] = newElement;
+                return newDQ;
+            } else {
+                const result = Array.from(document.querySelectorAll(this.__query));
+                this.nodes = [];
+                for (let i = 0; i < result.length; i++) {
+                    this[i] = result[i];
+                    this.nodes.push(this[i]);
+                }
+                this.length = result.length;
+                return this;
             }
-            this.length = result.length;
-            return this; //.__multiple ? result : result[0];
         } else {
             this.nodes = [this.__query];
             this[0] = [this.__query];
@@ -51,14 +67,19 @@ class DevQuery {
     }
     /** Appends a node or DOM element to queried element */
     append(node) {
-        if(typeof node === "object") {
-            if(this[0]) this[0].append(node);
+        if(node.constructor.name === "DevQuery") {
+            if(this[0]) {
+                this[0].appendChild(node[0]);
+                return this;
+            }
+        }
+        else if(typeof node === "object") {
+            if(this[0]) {
+                this[0].append(node);
+                return this;
+            }
         } else {
-            const tempDiv = document.createElement("div");
-            tempDiv.innerHTML = node;
-            const newNode = tempDiv.firstElementChild;
-            tempDiv.remove();
-            this[0].append(newNode);
+            this[0].append(this.__addElement__(node));
             return this;
         }
     }
