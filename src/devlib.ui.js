@@ -26,9 +26,9 @@ export class DialogBox {
             }
         }];
         this.options = options;
-        this.render();
+        this.__render__();
     }
-    render() {
+    __render__() {
         /** Quick access to document.createElement with assigning of classes and an ID 
          * @param [string] elemType : Type of element, such as "div" or "input"
          * @param [string] id : The element ID
@@ -83,14 +83,14 @@ export class DialogBox {
         setupDragEvents(this);
     }
 
-    /** Adds extra stylings to the dialog box nodes if they don't exist already */
-    applyStyles() {
+    /** Adds extra CSS stylings to the dialog box nodes if they don't exist already */
+    applyStyles(styles) {
         const options = this.options;
         if(document.querySelector(".dialog-styles")) {
             document.querySelector(".dialog-styles").remove();
         }
         if(Number(options.width).toString() !== "NaN") options.width += "px";
-        const styles = `
+        styles = styles || `
         .dialog-container {
             width: ${(options.width || "400px")};
             height: auto;
@@ -198,6 +198,7 @@ export class DialogBox {
 
 }
 
+/** STILL IN DEVELOPMENT */
 function setupDragEvents(container) {
     const titleBar = container.title;
     // titleBar
