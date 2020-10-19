@@ -158,6 +158,19 @@ class DevQuery {
         }
         return devQuery;
     }
+    /** Gets the parent elements of all queried nodes and returns it as a single DevQuery object */
+    parent() {
+        if(!this.length) {
+            return false;
+        }
+        const retQuery = new DevQuery();
+        retQuery.__query = "DevLib parent";
+        for(var i = 0; i < this.length; i++) {
+            retQuery[i] = this[i].parentElement;
+            retQuery.nodes.push(this[i].parentElement);
+        }
+        return retQuery;
+    }
 }
 
 // --- Direct DevQuery Functions.  These don't require the 'new' operator ---
