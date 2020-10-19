@@ -245,8 +245,8 @@ fn.ready = function(callback) {
     document.addEventListener('DOMContentLoaded', callback);
 }
 
-/** Make sure we don't already have a query object such as jQuery.  If not, set up devQuery */
-if (!$) var $ = (_$_) => {
+/** Make sure we don't already have a query object.  If not, set up devQuery */
+if (!devQuery) var devQuery = (_$_) => {
     return new DevQuery(_$_).query();
 }
 
@@ -256,7 +256,7 @@ fn.domTools = domTools;
 export {
     urlTools,
     domTools,
-    $
+    devQuery
 };
 
-export default $;
+export default devQuery;
