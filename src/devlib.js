@@ -54,6 +54,7 @@ class DevQuery {
                 newDQ[0] = newElement;
                 return newDQ;
             } else {
+                
                 const result = Array.from(document.querySelectorAll(this.__query));
                 this.nodes = [];
                 for (let i = 0; i < result.length; i++) {
@@ -64,11 +65,9 @@ class DevQuery {
                 return this;
             }
         } else {
-            
             this.nodes = [this.__query];
-            for(var i = 0; i < this.__query.length; i++) {
-                this[i] = [this.__query][i];
-            }
+            this.length = 1;
+            this[0] = this.__query;
             return this;
         }
     }
@@ -125,8 +124,6 @@ class DevQuery {
             })
             return this;
         } else if(this[0]) {
-            console.log(this.__query);
-            console.log(this[0]);
             return this[0].getAttribute(attribute);
         } else {
             return false;
