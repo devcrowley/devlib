@@ -42,6 +42,7 @@ class DevQuery {
     }
     /** Gets all of the query results and applies them to the query object */
     query() {
+        
         if(typeof this.__query !== "object") {
             // Query includes tags so create an element instead of querying for one
             if(this.__query.search(/[<>]/g) > -1) {
@@ -50,6 +51,7 @@ class DevQuery {
                 newDQ[0] = newElement;
                 return newDQ;
             } else {
+                
                 const result = Array.from(document.querySelectorAll(this.__query));
                 this.nodes = [];
                 for (let i = 0; i < result.length; i++) {
@@ -60,8 +62,11 @@ class DevQuery {
                 return this;
             }
         } else {
+            
             this.nodes = [this.__query];
-            this[0] = [this.__query];
+            for(var i = 0; i < this.__query.length; i++) {
+                this[i] = [this.__query][i];
+            }
             return this;
         }
     }
@@ -118,6 +123,8 @@ class DevQuery {
             })
             return this;
         } else if(this[0]) {
+            console.log(this.__query);
+            console.log(this[0]);
             return this[0].getAttribute(attribute);
         } else {
             return false;
@@ -128,6 +135,16 @@ class DevQuery {
         this.each(el=>{
             el.addEventListener(evt, fn);
         })        
+    }
+    /** Sets the HTML of the element */
+    html(html) {
+        if(typeof html === "undefined" && this[0]) return this[0].innerHTML;
+        if(typeof html !== "undefined") {
+            this.each(el=>{
+                el.innerHTML = html;
+            });
+        }
+        return false;
     }
 }
 
