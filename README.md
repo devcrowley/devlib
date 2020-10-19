@@ -4,7 +4,7 @@ This library is still in development but is fully functional.  Note that some th
 
 ## DevQuery
 
-The DevQuery object is a jQuery-Lite for ES6+.  New function are added to it as needed.
+The DevQuery object is a bit like a jQuery-Lite for ES6+.  It is much smaller but lacks some functionality that you may find in jQuery.  New function are added to it often.
 
 To import the devQuery library as '$', use:
 
