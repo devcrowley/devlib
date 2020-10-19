@@ -23,6 +23,7 @@ import domTools from './devlib.domtools.js';
 class DevQuery {
     constructor(__query) {
         this.__query = __query;
+        this.nodes = [];
     }
     /** Clears all values from the initial query */
     __clearValues__() {
@@ -41,8 +42,10 @@ class DevQuery {
         return newNode.firstChild;
     }
     /** Gets all of the query results and applies them to the query object */
-    query() {
-        
+    query(_query_) {
+        // If _query_ has a value, we're probably trying to do a 'this.find()' operation
+        if(_query_) return this.find(_query_);
+
         if(typeof this.__query !== "object") {
             // Query includes tags so create an element instead of querying for one
             if(this.__query.search(/[<>]/g) > -1) {
@@ -51,7 +54,6 @@ class DevQuery {
                 newDQ[0] = newElement;
                 return newDQ;
             } else {
-                
                 const result = Array.from(document.querySelectorAll(this.__query));
                 this.nodes = [];
                 for (let i = 0; i < result.length; i++) {
@@ -145,6 +147,19 @@ class DevQuery {
             });
         }
         return false;
+    }
+    /** Runs a query selector on the first element of the existing DevQuery object */
+    find(query) {
+        if(!this[0]) return false;
+        const devQuery = new DevQuery();
+        devQuery.__query = "DevLib find";
+        const retQuery = this[0].querySelectorAll(query);
+        
+        for(var i = 0; i < retQuery.length; i++) {
+            devQuery[i] = retQuery[i];
+            devQuery.nodes.push(retQuery[i]);
+        }
+        return devQuery;
     }
 }
 
