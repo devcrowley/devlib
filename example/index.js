@@ -2,7 +2,7 @@
  * 
  */
 
-import { $ } from "../src/devlib.js";
+import { devQuery as $ } from "../src/devlib.js";
 
 window.$ = $;
 const app = {};
