@@ -6,7 +6,7 @@
 
 import { DialogBox, dataToHtml } from './devlib.ui.js';
 
-class DomTools {
+export class DomTools {
     /** Keep an element locked into another element's boundary
      * @param {string | object} elem A DOM query string DOM Node to keep within a container
      * @param {string | object} container A DOM query string DOM Node to stay constrained within

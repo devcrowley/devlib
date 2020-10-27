@@ -8,7 +8,7 @@
  *
  *  to get all values after '?'
  * */
-class UrlTools {
+export class UrlTools {
     getUrlDataValues() {
         if (window.location.href.search(/\?/g) === -1) return false;
         const gets = window.location.href.split("?")[1].split("&");
