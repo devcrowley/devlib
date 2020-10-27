@@ -6,12 +6,8 @@
  * 
  * Written by Devin Crowley, 2020
  * 
- * Note: In a non-modular import of this file, it may break jQuery if you use it.
- * This file does not require jQuery and doesn't support jQuery's '$' query selector.
- * If jQuery is pre-loaded in your app, this module will skip activation of the DevQuery class
- * to prevent conflicts.
- * 
- * Usage:  `import * as devlib from "./devlib.js";`
+ * Example DevLib Usage:  `import * as devlib from "./devlib/devlib.js";`
+ * Example DevQuery Usage: import { devQuery as $ } from "./devlib/devlib.js"
  * 
  * Developer note:  I'm slowly going through each `for` loop and replacing
  * it with a `while` loop instead.  After reviewing performance of different
@@ -31,7 +27,7 @@ class DevQuery {
         this.length = 0;
     }
     /** Clears all values from the initial query */
-    __clearValues__() {
+    __clearQuery__() {
         for (let i = 0; i < this.length; i++) {
             delete this[i];
         }
@@ -43,10 +39,41 @@ class DevQuery {
         // Make sure a closing tag is provided or we'll get parsing errors
         const closingTag = "</" + nodeHtml.split(" ")[0].split(">")[0].replace("<","") + ">";
         if(nodeHtml.search(closingTag) === -1) nodeHtml += closingTag;
-        const container = document.createElement("div");
-        container.insertAdjacentHTML("afterBegin", nodeHtml);
-        return container.firstChild;
+
+        // Table elements can't be appended outside of an actual table, so let's check
+        // if we're dealing with table elements or not.  If so, we have to do something
+        // a little different to obtain a new td or tr node.
+        if(closingTag === "</td>" || closingTag === "</tr>") {
+            const docFragment = new DOMParser().parseFromString(nodeHtml, "text/xml");
+            const newNode = docFragment.firstChild.cloneNode(true);
+            return newNode;
+        } else {
+            // We're creating a non-table element.  We have to use this instead of the table
+            // element code since the HTML will NOT re-render the above code outside of a table
+            const container = document.createElement("div");
+            container.insertAdjacentHTML("afterBegin", nodeHtml);
+            return container.firstChild;
+        }
     }
+    /** Appends a node or newly generated DOM element via text at the given position inside/outside the queried element */
+    __appendAt__(node, location) {
+        if(!node) return this;
+        if(node.constructor.name === "DevQuery") {
+            if(this[0]) {
+                this[0].insertAdjacentElement(location, node[0]);
+                return this;
+            }
+        }
+        else if(typeof node === "object") {
+            if(this[0]) {
+                this[0].insertAdjacentElement(location, node);
+                return this;
+            }
+        } else {
+            this[0].insertAdjacentElement(location, this.__addElement__(node));
+            return this;
+        }          
+    }    
     /** Gets all of the query results and applies them to the query object */
     query(_query_) {
         // If _query_ has a value, we're probably trying to do a 'this.find()' operation
@@ -58,9 +85,10 @@ class DevQuery {
                 const newElement = this.__addElement__(this.__query);
                 const newDQ = new DevQuery(newElement);
                 newDQ[0] = newElement;
+                newDQ.nodes.push(newElement);
+                newDQ.length = 1;
                 return newDQ;
             } else {
-                
                 const result = Array.from(document.querySelectorAll(this.__query));
                 this.nodes = [];
                 arrEach(result, (el, index)=>{
@@ -78,24 +106,27 @@ class DevQuery {
             return this;
         }
     }
-    /** Appends a node or DOM element to queried element */
+    /** Appends a node or newly generated DOM element via text to the queried element */
     append(node) {
-        if(node.constructor.name === "DevQuery") {
-            if(this[0]) {
-                this[0].appendChild(node[0]);
-                return this;
-            }
-        }
-        else if(typeof node === "object") {
-            if(this[0]) {
-                this[0].append(node);
-                return this;
-            }
-        } else {
-            this[0].append(this.__addElement__(node));
-            return this;
-        }
+        this.__appendAt__(node, "beforeEnd");
+        return this;  
     }
+    /** Adds a node or newly generated DOM element BEFORE all other child elements within the queried element */
+    prepend(node) {
+        this.__appendAt__(node, "afterBegin");
+        return this;  
+    }    
+    /** Appends a node or newly generated DOM element via text BEFORE the queried element */
+    before(node) {
+        this.__appendAt__(node, "beforeBegin");
+        return this;  
+    }
+    /** Appends a node or newly generated DOM element via text AFTER the queried element */
+    after(node) {
+        this.__appendAt__(node, "afterEnd");
+        return this;
+    }
+
     /** Sets the value of all queried results */
     val(value) {
         if(value) {
@@ -246,7 +277,7 @@ class DevQuery {
         return this;                
     }
 
-    // QUICK ACCESS TO EVENTS
+    // --- Quick access to mouse events ---
     /** Quick access to the onClick event */
     click(fn) {
         this.on("click", fn);
