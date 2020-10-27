@@ -12,6 +12,14 @@
  * to prevent conflicts.
  * 
  * Usage:  `import * as devlib from "./devlib.js";`
+ * 
+ * Developer note:  I'm slowly going through each `for` loop and replacing
+ * it with a `while` loop instead.  After reviewing performance of different
+ * loop types, for large datasets, `while` always wins outright.  For small
+ * datasets, standard `for` loops are faster, but we can't assume dataset
+ * size, so choose the best option!  See `arrEach(arr,fn)` for the function
+ * we're using for these loops.  It's in the 'private functions' section of this
+ * module.
  */
 
 
@@ -31,12 +39,13 @@ class DevQuery {
         return (this);
     }
     /** Generates a new element from raw HTML, but doesn't append it to anything */
-    __addElement__(node) {
+    __addElement__(nodeHtml) {
         // Make sure a closing tag is provided or we'll get parsing errors
-        const closingTag = "</" + node.split(" ")[0].split(">")[0].replace("<","") + ">";
-        if(node.search(closingTag) === -1) node += closingTag;
-        const newNode = new DOMParser().parseFromString(node, "text/xml");
-        return newNode.firstChild;
+        const closingTag = "</" + nodeHtml.split(" ")[0].split(">")[0].replace("<","") + ">";
+        if(nodeHtml.search(closingTag) === -1) nodeHtml += closingTag;
+        const container = document.createElement("div");
+        container.insertAdjacentHTML("afterBegin", nodeHtml);
+        return container.firstChild;
     }
     /** Gets all of the query results and applies them to the query object */
     query(_query_) {
@@ -54,10 +63,11 @@ class DevQuery {
                 
                 const result = Array.from(document.querySelectorAll(this.__query));
                 this.nodes = [];
-                for (let i = 0; i < result.length; i++) {
-                    this[i] = result[i];
-                    this.nodes.push(this[i]);
-                }
+                arrEach(result, (el, index)=>{
+                    this[index] = el;
+                    this.nodes.push(this[index]);   
+                });
+
                 this.length = result.length;
                 return this;
             }
@@ -100,9 +110,11 @@ class DevQuery {
     /** Runs a function on each element in the queried results */
     each(fn) {
         const nodes = this.nodes;
-        nodes.forEach(n=>{
-            fn(n);
-        });
+        let i = 0;
+        while(i < nodes.length) {
+            fn(nodes[i]);
+            i++;
+        }         
         return this;
     }
     /** Sets an attribute value on all queried results */
@@ -214,9 +226,72 @@ class DevQuery {
         });
         return this;
     }
+    /** Removes all child elements from the query */
+    empty() {
+        this.each(el=>{
+            arrEach(el.childNodes,e=>{
+                e.remove();
+            });
+        });
+        return this;        
+    }
+
+    /** Moves an element to the given offset */
+    offset(x,y) {
+        this.each(el=>{
+            el.style.position = "absolute";
+            el.style.left = x + "px";
+            el.style.top = y + "px";
+        });
+        return this;                
+    }
+
+    // QUICK ACCESS TO EVENTS
+    /** Quick access to the onClick event */
+    click(fn) {
+        this.on("click", fn);
+        return this;          
+    }
+    /** Quick access to the mousemove event */
+    mousemove(fn) {
+        this.on("mousemove", fn);
+        return this;          
+    } 
+    /** Quick access to the mousemove event */
+    mouseover(fn) {
+        this.on("mouseover", fn);
+        return this;          
+    } 
+    /** Quick access to the mouseout event */
+    mouseout(fn) {
+        this.on("mouseout", fn);
+        return this;          
+    }                 
 }
 
-// --- Direct DevQuery Functions.  These don't require the 'new' operator ---
+// Private functions
+/** Iterates through an array and runs a function on each element.  This is a performance 
+ * boost over `for ... ` and `forEach` loops for large datasets.  Not used much at this time,
+ * but may be handy as the DevLib modules expand.
+*/
+function arrEach(arr,fn) {
+    if(!Array.isArray(arr)) {
+        console.warn("Cannot iterate through a non-array element!");
+        return false;
+    }
+    if(typeof fn != "function") {
+        console.warn("arrEach requires a function in the second argument!");
+        return false;
+    }    
+    let i = 0;
+    while(i < arr.length) {
+        fn(arr[i], i);
+        i++;
+    }    
+    return arr;
+}
+
+// --- Direct DevQuery Functions (prototypes).  These don't require the 'new' operator ---
 
 const fn = DevQuery.__proto__;
 
