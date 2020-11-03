@@ -52,7 +52,8 @@ class DevQuery {
             // element code since the HTML will NOT re-render the above code outside of a table
             const container = document.createElement("div");
             container.insertAdjacentHTML("afterBegin", nodeHtml);
-            return container.firstChild;
+            const newNode = container.firstChild.cloneNode(true);
+            return newNode;
         }
     }
     /** Appends a node or newly generated DOM element via text at the given position inside/outside the queried element */
@@ -70,7 +71,11 @@ class DevQuery {
                 return this;
             }
         } else {
-            this[0].insertAdjacentElement(location, this.__addElement__(node));
+            // If we're appending an element via an HTML string, we can add this
+            // element to all queried nodes instead of just the first
+            this.each(el=>{
+                el.insertAdjacentElement(location, this.__addElement__(node));
+            });
             return this;
         }          
     }    
@@ -109,7 +114,7 @@ class DevQuery {
     /** Appends a node or newly generated DOM element via text to the queried element */
     append(node) {
         this.__appendAt__(node, "beforeEnd");
-        return this;  
+        return this;
     }
     /** Adds a node or newly generated DOM element BEFORE all other child elements within the queried element */
     prepend(node) {
@@ -306,6 +311,7 @@ class DevQuery {
  * but may be handy as the DevLib modules expand.
 */
 function arrEach(arr,fn) {
+    arr = Array.from(arr);
     if(!Array.isArray(arr)) {
         console.warn("Cannot iterate through a non-array element!");
         return false;
