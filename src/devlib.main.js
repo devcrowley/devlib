@@ -395,7 +395,7 @@ fn.get = function(url, callback) {
     return promise;
 }
 
-/** Run a function after document completely finished loading */
+/** Run a function after the document completely finished loading */
 fn.ready = function(callback) {
     document.addEventListener('DOMContentLoaded', callback);
 }
