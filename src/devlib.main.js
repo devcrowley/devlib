@@ -1,4 +1,4 @@
-/** Devlib 0.0.2a Modular Edition
+/** Devlib 0.0.3a Modular Edition
  * This library is still in development!
  * 
  * A library with many useful functions
@@ -271,6 +271,37 @@ class DevQuery {
         });
         return this;        
     }
+    /** Adds a string of classes to the queried elements */
+    addClass(classes) {
+        this.each(el=>{
+            arrEach(classes.split(" "),c=>{
+                el.classList.add(c);
+            });
+        });
+        return this;        
+    }
+    /** Removes a string of classes from the queried elements */
+    removeClass(classes) {
+        this.each(el=>{
+            arrEach(classes.split(" "),c=>{
+                el.classList.remove(c);
+            });
+        });
+        return this;        
+    }
+    /** Toggles a string of classes from the queried elements */
+    toggleClass(classes) {
+        this.each(el=>{
+            arrEach(classes.split(" "),c=>{
+                if(el.classList.contains(c)) {
+                    el.classList.remove(c);
+                } else {
+                    el.classList.add(c);
+                }
+            });
+        });
+        return this;        
+    }        
 
     /** Moves an element to the given offset */
     offset(x,y) {
@@ -395,7 +426,7 @@ fn.get = function(url, callback) {
     return promise;
 }
 
-/** Run a function after the document completely finished loading */
+/** Run a function after document completely finished loading */
 fn.ready = function(callback) {
     document.addEventListener('DOMContentLoaded', callback);
 }

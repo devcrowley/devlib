@@ -15,10 +15,14 @@ import urlTools from './devlib.urltools.js';
 import domTools from './devlib.domtools.js';
 /** Data manipulation and generation tools */
 import dataTools from './devlib.datatools.js';
+/** Date manipulation and formatting tools */
+import dateTool from './devlib.datetools.js';
 
-fn.urlTools = urlTools;
-fn.domTools = domTools;
-fn.dataTools = dataTools;
+if(urlTools) fn.urlTools = urlTools;
+if(domTools) fn.domTools = domTools;
+if(dataTools) fn.dataTools = dataTools;
+// The dateTool is a class and must be called with the 'new' syntax, i.e. `let date = new devQuery.DateTool`
+if(dateTool) fn.dateTool = dateTool;
 
 export {
     fn,
