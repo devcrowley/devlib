@@ -4,17 +4,16 @@
 
 import { devQuery as $ } from "../src/devlib.js";
 
-window.$ = $;
 const app = {};
+
+// Make the devQuery and app variables global so we can mess around with them in console
 window.app = app;
+window.$ = $;
 
 $.ready(()=>{
-    $("#btn_showjsontree").on("click", e=>{
-        jsonToHtml();
-    });
-    
+    setupEvents();
+    $("#date_format_result").html($.dateTool().format($("#date_format").val()));
 });
-
 
 /** Retrieves JSON data and places it into a tree view */
 function jsonToHtml() {
@@ -34,5 +33,17 @@ function jsonToHtml() {
             width: "50%",
             height: "50vh"
         });
+    });
+    
+}
+
+/** Sets up events */
+function setupEvents() {
+    $("#btn_showjsontree").on("click", e=>{
+        jsonToHtml();
+    });
+
+    $("#date_format").on("change",(e)=>{
+        $("#date_format_result").html($.dateTool().format(e.target.value));
     });
 }

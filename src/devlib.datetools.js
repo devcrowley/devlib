@@ -43,6 +43,10 @@ export class DateTool {
      * h -> 12 Hours
      * ss -> padded seconds
      * s -> seconds
+     * dd -> Padded numeric day of the month
+     * d -> Numeric Day of the month
+     * DD -> Full day name
+     * D -> Partial day name (first 3 letters)
      * mm -> padded numeric month
      * m -> numeric month
      * M -> Partial month name (first 3 letters)
@@ -50,6 +54,9 @@ export class DateTool {
      * a -> am/pm
      * A -> AM/PM
      * S -> Numeric suffix, i.e. 1st, 2nd, 3rd, ... 28th, 29th
+     * Y -> Full 4-digit year
+     * y -> 2-digit year
+     * {any text in brackets} -> Text in brackets will remain unformatted
      */
     format(formatString) {
         const date = this.date;
@@ -59,9 +66,27 @@ export class DateTool {
         const monthFull = months[date.getMonth()];
         const dayPartial = dayFull.substring(0,3);
         const monthPartial = monthFull.substring(0,3);
-        const hours12 = date.getHours() - 12;
+        const yearPartial = date.getFullYear().toString().substring(2,4);
+        const hours12 = date.getHours() <= 12 ? date.getHours() : date.getHours() - 12;
         let am_pm = date.getHours() <= 12 ? "am" : "pm";
         let suffix = "";
+
+        // Allow common characters to not be formatted when they are inside braces/brackets, i.e. "Y-mm-dd {at} hh:ii:ss"
+        let matches = formatString.split('{')
+            .filter(function(v){ return v.indexOf('}') > -1})
+            .map( function(value) { 
+            return value.split('}')[0]
+        });
+
+        let index = 0;
+        while (formatString.search(/{([^{}]+)}/) > -1 && index < 100) {
+          formatString = formatString.replace(/{([^{}]+)}/,"[[" + index + "]]");
+          index++;
+          if(index >= 99) {
+              console.error("Returned too many results for formatted string bracket values");
+          }
+        }
+
         
         // Figure out the text suffix for a number
         const dayOfMonth = date.getDate();
@@ -93,7 +118,7 @@ export class DateTool {
         .replace(/m/g, date.getMonth() + 1)
         .replace(/yyyy/g, date.getFullYear())
         .replace(/Y/g, date.getFullYear())
-        .replace(/yy/g, date.getFullYear().toString()[2] + date.getFullYear().toString()[3])
+        .replace(/y/g, yearPartial)
         .replace(/dd/g, date.getDate().toString().padStart(2,"0"))
         .replace(/d/g, date.getDate());
 
@@ -130,8 +155,12 @@ export class DateTool {
         .replace(/X6/g, am_pm.toUpperCase())
         .replace(/X7/g, suffix);
 
+        // Lastly, place any non-formatted text back into the formatString
+        for(var i = 0; i < matches.length; i++) {
+            formatString = formatString.replace("[["+ i + "]]", matches[i]);
+        }
+        console.log(matches, formatString);
 
-  
         return formatString;
     }
     valueOf(val) {

@@ -1,3 +1,7 @@
+body {
+    * { box-sizing:border-box }
+    font-family:Arial, sans-serif;
+}
 .__data-tree-view {
     font-family: Arial, sans-serif;
     line-height:1.25rem;
@@ -63,8 +67,29 @@
     
     .level3 {
         color:green;
-        smargin-left:-2.4rem;
     }    
+}
+
+.date-formatting-container {
+    ul {
+        max-width:35rem;
+        font-size:0.8rem;
+        column-count:2;
+        li {
+            display:inline-block;
+            min-width:15rem;
+            overflow:hidden;
+            white-space: nowrap;
+            span {
+                display:inline-block;
+                font-weight:bold;
+                width:3rem;
+            }
+        }
+    }
+    .date-format-result {
+        display:inline-block;
+    }
 }
 
 /* ANIMATIONS */

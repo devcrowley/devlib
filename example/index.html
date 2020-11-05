@@ -12,5 +12,35 @@
     <body>
         <h2>DevLib 3.0 Examples</h2>
         <button id="btn_showjsontree">JSON to Tree View</button>
+        <hr>
+        <div class="date-formatting-container">
+            <h3>Date Formatting</h3>
+            <label>Format </label><input id="date_format" value="DD, MM dS, Y {at} h:ii:ssa"> Today is <span id="date_format_result" class="date-format-result"></span>
+            <ul>
+                <li><span>ii</span> padded Minutes</li>
+                <li><span>i</span> minutes</li>
+                <li><span>HH</span> 24 Hours, padded</li>
+                <li><span>H</span> 24 Hours</li>
+                <li><span>hh</span> 12 Hours, padded</li>
+                <li><span>h</span> 12 Hours</li>
+                <li><span>ss</span> padded seconds</li>
+                <li><span>s</span> seconds</li>
+                <li><span>dd</span> Padded numeric day of the month
+                <li><span>d</span> Numeric Day of the month
+                <li><span>DD</span> Full day name
+                <li><span>D</span> Partial day name (first 3 letters)                
+                <li><span>mm</span> padded numeric month</li>
+                <li><span>m</span> numeric month</li>
+                <li><span>M</span> Partial month name (first 3 letters)</li>
+                <li><span>MM</span> Full month name</li>
+                <li><span>Y</span> Full 4-digit year
+                <li><span>y</span> 2-digit year                
+                <li><span>a</span> am/pm</li>
+                <li><span>A</span> AM/PM</li>
+                <li><span>S</span> Numeric suffix, i.e. 1st, 2nd, 3rd, ... 28th, 29th</li>     
+                <li><span>{...}</span>All text within brackets will remain unformatted</li> 
+            </ul>
+        </div>
+
     </body>
 </html>
