@@ -159,7 +159,6 @@ export class DateTool {
         for(var i = 0; i < matches.length; i++) {
             formatString = formatString.replace("[["+ i + "]]", matches[i]);
         }
-        console.log(matches, formatString);
 
         return formatString;
     }
