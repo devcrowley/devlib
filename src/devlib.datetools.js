@@ -17,7 +17,11 @@ export class DateTool {
             this.date = new Date();
         }
         this.timeZone = this.date.getTimezoneOffset() / 60;
-        if(this.date == "invalid date")
+        if(this.date.valueOf().toString().toLowerCase() == "nan") {
+            console.error("Invalid date passed to DateTool.  Values will revert to the current date.");
+            this.error = "Invalid Date";
+            this.date = new Date();
+        }
     }
     /** Adds days to the given date */
     addDays(days = 0) {
@@ -150,13 +154,8 @@ export class DateTool {
         return this.date;
     }
     addHours(val) {
-        if(val) {
-            const hourOffset = val.toString().padStart(2,"0");
-            this.date = new Date(this.format("Y-M-D") + 'T00:00:00.000+' + hourOffset + ':00');
-            return this;            
-        } else {
-            return this;
-        }        
+        this.date = new Date(this.date.valueOf()+((24+val)*60*60*1000));
+        return this;     
     }
 }
 const dateTool = (date)=>{

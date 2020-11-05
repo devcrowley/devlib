@@ -22,6 +22,9 @@
 /** [In Development] A query and DOM manipulation library. */
 class DevQuery {
     constructor(__query) {
+        if(!__query) {
+            __query = "";
+        }
         this.__query = __query;
         this.nodes = [];
         this.length = 0;
