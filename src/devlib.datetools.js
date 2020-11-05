@@ -24,17 +24,6 @@ export class DateTool {
             this.date = new Date();
         }
     }
-    /** Adds days to the given date */
-    addDays(days = 0) {
-        this.date = new Date(this.date.valueOf()+(24*60*60*1000*days));
-        return this;
-    }
-    /** Subtracts days to the given date */
-    subDays(days = 0) {
-        days*=-1;
-        this.date = new Date(this.date.valueOf()+(24*60*60*1000*days));
-        return this;
-    }
     /** Formats a date to match the provided string.  Padded numbers start with a zero if they are single-digit.
      * ii -> padded Minutes
      * i -> minutes
@@ -182,10 +171,29 @@ export class DateTool {
     getDate() {
         return this.date;
     }
+    /** Adds days to the given date */
+    addDays(days = 0) {
+        this.date = new Date(this.date.valueOf()+(24*60*60*1000*days));
+        return this;
+    }
+    /** Subtracts days to the given date */
+    subDays(days = 0) {
+        days*=-1;
+        this.date = new Date(this.date.valueOf()+(24*60*60*1000*days));
+        return this;
+    }    
     addHours(val) {
-        this.date = new Date(this.date.valueOf()+((24+val)*60*60*1000));
+        this.date = new Date(this.date.valueOf()+(24*60*60*1000)*(val/24));
         return this;     
     }
+    addMinutes(val) {
+        this.date = new Date(this.date.valueOf()+(24*60*60*1000*(val/(24*60))));
+        return this;     
+    }        
+    addSeconds(val) {
+        this.date = new Date(this.date.valueOf()+(24*60*60*1000*(val/(24*60*60))));
+        return this;     
+    }    
 }
 
 const dateTool = (date)=>{
