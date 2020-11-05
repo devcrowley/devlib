@@ -4,8 +4,9 @@
  * 
  * I was debating whether this should be a class or a library of functions since the 'new' operator
  * needs to be used for the class option.  I think it's best to have this as a class for now
- * so we can chain functions together.  DevLib automatically uses the "new" operator when using
- * devQuery.dateTool() and it returns a new DateTool object when used
+ * so we can chain functions together.  Default export automatically uses the "new" operator when using
+ * dateTool() and it returns a new DateTool object when used.  The DateTool class is also available
+ * as its own export if you'd prefer to use the class directly
  * 
  * */
 
@@ -186,7 +187,9 @@ export class DateTool {
         return this;     
     }
 }
+
 const dateTool = (date)=>{
     return new DateTool(date);
 }
+
 export default dateTool;
