@@ -176,6 +176,13 @@ class DevQuery {
         });
         return this;
     }
+    /** Removes elements from the DOM */
+    remove() {
+        this.each(el=>{
+            el.remove();
+        });
+        return this;
+    }    
     /** Sets the HTML of the element */
     html(html) {
         if(typeof html === "undefined" && this[0]) return this[0].innerHTML;
@@ -314,6 +321,17 @@ class DevQuery {
             el.style.top = y + "px";
         });
         return this;                
+    }
+    /** Sets style or full CSS for an element */
+    css(style, val) {
+        if(val) {
+            this.each(el=>{
+                el.style[style] = val;
+            });
+            return this;               
+        } else {
+            el.style.cssText = style;
+        }
     }
 
     // --- Quick access to mouse events ---
