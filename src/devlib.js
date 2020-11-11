@@ -8,15 +8,15 @@
 
 
 /** Main DevLib functionality */
-import { fn, devQuery} from "./devlib.main.js";
+import { fn, devQuery} from "./modules/devlib.main.js";
 /** Tools for manipulating and reading data from the current or remote URLs */
-import urlTools from './devlib.urltools.js';
+import urlTools from './modules/devlib.urltools.js';
 /** Tools for manipulating the DOM and its nodes */
-import domTools from './devlib.domtools.js';
+import domTools from './modules/devlib.domtools.js';
 /** Data manipulation and generation tools */
-import dataTools from './devlib.datatools.js';
+import dataTools from './modules/devlib.datatools.js';
 /** Date manipulation and formatting tools */
-import dateTool from './devlib.datetools.js';
+import dateTool from './modules/devlib.datetools.js';
 
 if(urlTools) fn.urlTools = urlTools;
 if(domTools) fn.domTools = domTools;
