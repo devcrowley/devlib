@@ -41,14 +41,17 @@ class DevQuery {
     __addElement__(nodeHtml) {
         // Make sure a closing tag is provided or we'll get parsing errors
         const closingTag = "</" + nodeHtml.split(" ")[0].split(">")[0].replace("<","") + ">";
+        const openingTag = closingTag.replace("/","");
+        const elementName = openingTag.replace("<","").replace(">","");
         if(nodeHtml.search(closingTag) === -1) nodeHtml += closingTag;
 
         // Table elements can't be appended outside of an actual table, so let's check
         // if we're dealing with table elements or not.  If so, we have to do something
         // a little different to obtain a new td or tr node.
-        if(closingTag === "</td>" || closingTag === "</tr>") {
-            const docFragment = new DOMParser().parseFromString(nodeHtml, "text/xml");
-            const newNode = docFragment.firstChild.cloneNode(true);
+        if(openingTag === "<td>" || openingTag === "<tr>") {
+            const docFragment = document.createElement("table");
+            docFragment.innerHTML = nodeHtml;
+            const newNode = docFragment.querySelector(elementName);
             return newNode;
         } else {
             // We're creating a non-table element.  We have to use this instead of the table
