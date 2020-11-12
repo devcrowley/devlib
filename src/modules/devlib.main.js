@@ -312,7 +312,6 @@ class DevQuery {
         });
         return this;        
     }        
-
     /** Moves an element to the given offset */
     offset(x,y) {
         this.each(el=>{
@@ -354,7 +353,30 @@ class DevQuery {
     mouseout(fn) {
         this.on("mouseout", fn);
         return this;          
-    }                 
+    }
+/** Sorts the items in a select dropdown so they're in alphabetical/numerical order 
+ * @param {bool} descending Sets the order to descending instead of ascending
+*/
+    sort(descending) {
+        const tmpAry = new Array();
+        this.each(selElem=>{
+            for (var i=0;i<selElem.options.length;i++) {
+                tmpAry[i] = new Array();
+                tmpAry[i][0] = selElem.options[i].text;
+                tmpAry[i][1] = selElem.options[i].value;
+            }
+            tmpAry.sort();
+            descending ? tmpAry.reverse() : tmpAry;
+            while (selElem.options.length > 0) {
+                selElem.options[0] = null;
+            }
+            for (var i=0;i<tmpAry.length;i++) {
+                var op = new Option(tmpAry[i][0], tmpAry[i][1]);
+                selElem.options[i] = op;
+            }
+            return;
+        });
+    }
 }
 
 // Private functions
