@@ -8,25 +8,28 @@
 
 
 /** Main DevLib functionality */
-import { fn, devQuery} from "./modules/devlib.main.js";
+import { DevQuery, fn, devQuery} from "./modules/devlib.main.js";
 /** Tools for manipulating and reading data from the current or remote URLs */
-import urlTools from './modules/devlib.urltools.js';
+import urlTool from './modules/devlib.urltools.js';
 /** Tools for manipulating the DOM and its nodes */
-import domTools from './modules/devlib.domtools.js';
+import domTool from './modules/devlib.domtools.js';
 /** Data manipulation and generation tools */
-import dataTools from './modules/devlib.datatools.js';
+import dataTool from './modules/devlib.datatools.js';
 /** Date manipulation and formatting tools */
 import dateTool from './modules/devlib.datetools.js';
+/** Math tools */
+import mathTool from './modules/devlib.mathtools.js';
 
-if(urlTools) fn.urlTools = urlTools;
-if(domTools) fn.domTools = domTools;
-if(dataTools) fn.dataTools = dataTools;
-// The dateTool is a class and must be called with the 'new' syntax, i.e. `let date = new devQuery.DateTool`
-if(dateTool) fn.dateTool = dateTool;
+if(urlTool) devQuery.urlTool = urlTool;
+if(domTool) devQuery.domTool = domTool;
+if(dataTool) devQuery.dataTool = dataTool;
+if(dateTool) devQuery.dateTool = dateTool;
+if(mathTool) devQuery.mathTool = mathTool;
 
 export {
     fn,
-    devQuery
+    devQuery,
+    DevQuery
 }
 
 export default devQuery;

@@ -18,9 +18,13 @@
  * module.
  */
 
-
 /** [In Development] A query and DOM manipulation library. */
-class DevQuery {
+
+function devQuery(_$_) {
+    return new DevQuery(_$_).query();
+}
+
+export class DevQuery {
     constructor(__query) {
         if(!__query) {
             __query = "";
@@ -405,9 +409,11 @@ function arrEach(arr,fn) {
     return arr;
 }
 
-// --- Direct DevQuery Functions (prototypes).  These don't require the 'new' operator ---
+// --- Extends the DevQuery functionality
+const fn = DevQuery.prototype;
 
-const fn = DevQuery.__proto__;
+
+// --- Direct pure functions for devQuery
 
 /**
  * Posts data to a given URL
@@ -417,7 +423,7 @@ const fn = DevQuery.__proto__;
  * @param {function} callback Optional Callback function to run upon completion instead of utilizing the returned promise
  * @return {promise} Returns a promise which passes the data received from the URL upon error or completion
  */
-fn.post = function (url, data, callback) {
+devQuery.post = function (url, data, callback) {
     let promise = new Promise((resolve, reject) => {
         if(!url || !data) {
             reject("No URL Provided");
@@ -449,7 +455,7 @@ fn.post = function (url, data, callback) {
  * @param {function} callback Optional Callback function to run upon completion instead of utilizing the returned promise
  * @return {promise} Returns a promise which passes the data received from the URL upon error or completion
  */
-fn.get = function(url, callback) {
+devQuery.get = function(url, callback) {
     let promise = new Promise((resolve, reject) => {
         if(!url) {
             reject("No URL Provided");
@@ -473,13 +479,8 @@ fn.get = function(url, callback) {
 }
 
 /** Run a function after document completely finished loading */
-fn.ready = function(callback) {
+devQuery.ready = function(callback) {
     document.addEventListener('DOMContentLoaded', callback);
-}
-
-/** Make sure we don't already have a query object.  If not, set up devQuery */
-if (!devQuery) var devQuery = (_$_) => {
-    return new DevQuery(_$_).query();
 }
 
 // fn.urlTools = urlTools;
