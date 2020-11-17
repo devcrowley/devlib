@@ -43,6 +43,7 @@ export class DevQuery {
     }
     /** Generates a new element from raw HTML, but doesn't append it to anything */
     __addElement__(nodeHtml) {
+        nodeHtml = nodeHtml.trim();
         // Make sure a closing tag is provided or we'll get parsing errors
         const closingTag = "</" + nodeHtml.split(" ")[0].split(">")[0].replace("<","") + ">";
         const openingTag = closingTag.replace("/","");
@@ -69,6 +70,7 @@ export class DevQuery {
     /** Appends a node or newly generated DOM element via text at the given position inside/outside the queried element */
     __appendAt__(node, location) {
         if(!node) return this;
+        
         if(node.constructor.name === "DevQuery") {
             if(this[0]) {
                 this[0].insertAdjacentElement(location, node[0]);
