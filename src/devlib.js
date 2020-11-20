@@ -9,7 +9,7 @@
 // Stand-alone modules
 
 /** Main DevLib functionality */
-import { fn, devQuery} from "./modules/devlib.devquery.js";
+import { fn, DevQuery, devQuery} from "./modules/devlib.devquery.js";
 /** Tools for manipulating and reading data from the current or remote URLs */
 import urlTool from './modules/devlib.urltools.js';
 /** Tools for manipulating the DOM and its nodes */
@@ -21,22 +21,13 @@ import dateTool from './modules/devlib.datetools.js';
 /** Math tools */
 import mathTool from './modules/devlib.mathtools.js';
 
-// devQuery Extendable modules
+// ---- DevQuery Extendable modules ---- //
 
 /** A very simple example extension */
-import exampleExtension from './extensions/devlib.example.js';
+import './extensions/devlib.example.js';
 /** Tools for working with SVGs, such as pivot points and manipulation */
-import svgTool from './modules/devlib.svgtools.js';
+import './extensions/devlib.svgtools.js';
 
-if(fn) {
-    // import and assign devQuery extension modules here.
-    /** SVG tools */
-    devQuery.fn = fn;
-    if(exampleExtension) fn.example = exampleExtension;
-    if(svgTool) fn.example = exampleExtension;
-}
-
-// end Extendable modules
 
 /* 
 Direct export access to modules in case we don't want to use devQuery.
@@ -51,18 +42,17 @@ if(devQuery) {
     if(dataTool) devQuery.dataTool = dataTool;
     if(dateTool) devQuery.dateTool = dateTool;
     if(mathTool) devQuery.mathTool = mathTool;
-    if(svgTool) devQuery.svgTool = svgTool;
 }
 
 export {
     fn,
     devQuery,
+    DevQuery,
     urlTool,
     domTool,
     dataTool,
     dateTool,
     mathTool,
-    svgTool
 }
 
 export default devQuery;

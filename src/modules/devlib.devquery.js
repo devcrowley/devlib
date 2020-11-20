@@ -333,13 +333,13 @@ export class DevQuery {
     }
     /** Sets style or full CSS for an element */
     css(style, val) {
-        if(val) {
+        if(typeof val === "string") {
             this.each(el=>{
                 el.style[style] = val;
             });
             return this;               
         } else {
-            el.style.cssText = style;
+            return this[0].style[style];
         }
     }
 
@@ -414,8 +414,12 @@ function arrEach(arr,fn) {
 
 // --- Extends the DevQuery functionality
 const fn = DevQuery.prototype;
-fn.extend = function(_module) {
-    console.log(_module);
+
+export function extend(mod) {
+    Object.keys(mod).forEach(key=>{
+        if(fn[key]) { console.error("DevQuery Extend Failure: An extension already exists with the name " + key); return false; }
+        fn[key] = mod[key];
+    });
 }
 
 // --- Direct pure functions for devQuery
