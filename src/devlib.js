@@ -20,16 +20,20 @@ import dataTool from './modules/devlib.datatools.js';
 import dateTool from './modules/devlib.datetools.js';
 /** Math tools */
 import mathTool from './modules/devlib.mathtools.js';
-/** SVG tools */
-import svgTool from './modules/devlib.svgtools.js';
 
 // devQuery Extendable modules
 
-
+/** A very simple example extension */
 import exampleExtension from './extensions/devlib.example.js';
+/** Tools for working with SVGs, such as pivot points and manipulation */
+import svgTool from './modules/devlib.svgtools.js';
+
 if(fn) {
     // import and assign devQuery extension modules here.
+    /** SVG tools */
+    devQuery.fn = fn;
     if(exampleExtension) fn.example = exampleExtension;
+    if(svgTool) fn.example = exampleExtension;
 }
 
 // end Extendable modules
