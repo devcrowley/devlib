@@ -414,7 +414,9 @@ function arrEach(arr,fn) {
 
 // --- Extends the DevQuery functionality
 const fn = DevQuery.prototype;
-
+fn.extend = function(_module) {
+    console.log(_module);
+}
 
 // --- Direct pure functions for devQuery
 
