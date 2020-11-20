@@ -214,6 +214,7 @@ export class DevQuery {
             devQuery[i] = retQuery[i];
             devQuery.nodes.push(retQuery[i]);
         }
+        devQuery.length = devQuery.nodes.length;
         return devQuery;
     }
     /** Returns the first value in a DevQuery as its own DevQuery object */

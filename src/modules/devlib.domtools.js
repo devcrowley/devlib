@@ -55,6 +55,6 @@ export class DomTools {
 
 DomTools.prototype.dataToHtml = dataToHtml;
 
-const domTools = new DomTools();
+const domTool = new DomTools();
 
-export default domTools;
+export default domTool;

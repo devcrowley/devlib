@@ -94,6 +94,7 @@ export class DialogBox {
         .dialog-container {
             width: ${(options.width || "400px")};
             height: auto;
+            max-height: 100%;
             background-color: ${(options.backgroundColor || "white")};
             color: ${(options.color || "black")};
             font-size: ${(options.fontSize || "1rem")};
@@ -125,7 +126,9 @@ export class DialogBox {
         .dialog-container .dialog-content {
             display: block;
             padding: 5px 5px 20px 5px;
-            height: ${(options.height || "400px")};            
+            height: ${(options.height || "400px")};
+            overflow:hidden;
+            overflow-y:auto;          
         }
         .dialog-container .dialog-closebtn {
             cursor: pointer;
@@ -143,7 +146,7 @@ export class DialogBox {
         }
 
         .dialog-container .dialog-buttonbar {
-            position:absolute;
+            position:relative;
             width:100%;
             bottom:0px;
             text-align:right;
@@ -186,7 +189,8 @@ export class DialogBox {
     /** Removes the dialog box from the DOM and sets up the Dialog Box object for deletion */
     remove() {
         // Memory cleanup
-        this.container.remove();
+        
+        this.container?.remove();
         Object.keys(this).forEach(key=>{
             this[key] = null;
             delete this[key];

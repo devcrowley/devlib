@@ -21,6 +21,6 @@ export class UrlTools {
     }
 }
 
-export const urlTools = new UrlTools();
+export const urlTool = new UrlTools();
 
-export default urlTools;
+export default urlTool;
