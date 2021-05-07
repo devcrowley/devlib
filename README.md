@@ -1,6 +1,6 @@
 # DevLib v0.1a
 
-This library is still in development but is fully functional.  Note that some things may change that will break your application if you upgrade it later.  When a stable version is available, the version will no longer show an alpha delineation with "a" in this readme file.
+This library is no longer in development but is fully functional.  It was a learning experiment in re-creating smaller footprint version of a jQuery-like library with a hint of Vue/React-like component and stateful templates.  I'm keeping it available so others can learn from the comments throughout the code.  Note that it doesn't always follow best practices as it was developed earlier in my development path.
 
 ## DevQuery
 
@@ -72,7 +72,7 @@ At this time, there is only a single URL tool function but this is being expande
 
 ##### DOM Tools
 
-DOM tools are extended DOM manipulation and UI tools.  They are still in development.
+DOM tools are extended DOM manipulation and UI tools.  They are still in development and use stateful data to automatically update the DOM as data changes.
 
 ###### Dialog Box
 
@@ -95,7 +95,7 @@ DOM tools are extended DOM manipulation and UI tools.  They are still in develop
 
 ```$.domTools.dataToHtml(data, [optional options])``` converts any javascript object to an HTML string containing each key/value pair as a list element. It recursively goes through every element within the object.  
 
-By default, it will return a standard unordered list with list elements, but you may define custom elements to replace the ```ul``` and ```li``` elements.
+By default, it will return a standard unordered list with list elements, but you may define custom elements to replace the `ul` and `li` elements.
 
 **Available Options:**
 
